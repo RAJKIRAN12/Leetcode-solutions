@@ -1,0 +1,44 @@
+#PROBLEM
+22. Generate Parentheses
+
+Given n pairs of parentheses, write a function to generate all combinations of well-formed parentheses.
+
+ 
+
+Example 1:
+
+Input: n = 3
+Output: ["((()))","(()())","(())()","()(())","()()()"]
+Example 2:
+
+Input: n = 1
+Output: ["()"]
+ 
+
+Constraints:
+
+1 <= n <= 8
+
+#SOLUTIONS
+
+class Solution:
+    def generateParenthesis(self, n):
+        res = []
+        
+        def backtrack(current_string, open_count, closed_count):
+            # Base Case: If the string reached the maximum length (2 * n)
+            if len(current_string) == 2 * n:
+                res.append(current_string)
+                return
+            
+            # If we can still add an opening bracket
+            if open_count < n:
+                backtrack(current_string + "(", open_count + 1, closed_count)
+                
+            # If we can add a closing bracket (must have an open one to close)
+            if closed_count < open_count:
+                backtrack(current_string + ")", open_count, closed_count + 1)
+        
+        # Start the recursion with an empty string and 0 counts
+        backtrack("", 0, 0)
+        return res
